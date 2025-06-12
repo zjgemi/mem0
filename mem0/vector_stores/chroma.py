@@ -142,6 +142,8 @@ class ChromaDB(VectorStoreBase):
         Returns:
             List[OutputData]: Search results.
         """
+        if len(filters) > 1:
+            filters = {"$and": [{k: {"$eq": v}} for k, v in filters.items()]}
         results = self.collection.query(query_embeddings=vectors, where=filters, n_results=limit)
         final_results = self._parse_output(results)
         return final_results

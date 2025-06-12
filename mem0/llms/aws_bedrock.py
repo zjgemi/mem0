@@ -5,6 +5,7 @@ from typing import Any, Dict, List, Optional
 
 try:
     import boto3
+    from botocore.client import Config
 except ImportError:
     raise ImportError("The 'boto3' library is required. Please install it using 'pip install boto3'.")
 
@@ -46,6 +47,9 @@ class AWSBedrockLLM(LLMBase):
             region_name=aws_region,
             aws_access_key_id=aws_access_key if aws_access_key else None,
             aws_secret_access_key=aws_secret_key if aws_secret_key else None,
+            config=Config(
+                proxies=self.config.aws_proxies,
+            ),
         )
 
         self.model_kwargs = {
