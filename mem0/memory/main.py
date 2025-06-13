@@ -331,6 +331,7 @@ class Memory(MemoryBase):
             ],
             response_format={"type": "json_object"},
         )
+        logger.info("LLM response: %s" % response)
 
         try:
             response = remove_code_blocks(response)
